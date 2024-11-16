@@ -1,10 +1,29 @@
 const scoreList = document.querySelector(".score_list");
+const scoreCards = document.querySelectorAll(".score_card");
 
 let isDown = false;
 let startX;
 let scrollLeft;
 let isDragging = false;
 
+// Função para ajustar a opacidade dos cards
+function adjustOpacity() {
+  const listRect = scoreList.getBoundingClientRect(); // Área visível do carrossel
+
+  scoreCards.forEach((card) => {
+    const cardRect = card.getBoundingClientRect();
+
+    // Verifica se o card está totalmente visível na área do carrossel
+    const isVisible =
+      cardRect.left >= listRect.left &&
+      cardRect.right <= listRect.right;
+
+    // Ajusta a opacidade: 1 se totalmente visível, 0.3 se não estiver
+    card.style.opacity = isVisible ? "1" : "0.3";
+  });
+}
+
+// Eventos de arrastar
 scoreList.addEventListener("mousedown", (e) => {
   e.preventDefault();
   isDown = true;
@@ -13,8 +32,7 @@ scoreList.addEventListener("mousedown", (e) => {
   startX = e.pageX - scoreList.offsetLeft;
   scrollLeft = scoreList.scrollLeft;
 
-  // Adiciona a classe "dragging" aos cards
-  document.querySelectorAll(".score_card").forEach((card) => {
+  scoreCards.forEach((card) => {
     card.classList.add("dragging");
   });
 });
@@ -23,8 +41,7 @@ scoreList.addEventListener("mouseleave", () => {
   isDown = false;
   scoreList.classList.remove("active");
 
-  // Remove a classe "dragging" dos cards
-  document.querySelectorAll(".score_card").forEach((card) => {
+  scoreCards.forEach((card) => {
     card.classList.remove("dragging");
   });
 });
@@ -33,22 +50,33 @@ scoreList.addEventListener("mouseup", () => {
   isDown = false;
   scoreList.classList.remove("active");
 
-  // Remove a classe "dragging" dos cards
-  document.querySelectorAll(".score_card").forEach((card) => {
+  scoreCards.forEach((card) => {
     card.classList.remove("dragging");
   });
+
+  // Ajusta a opacidade ao soltar
+  adjustOpacity();
 });
 
 scoreList.addEventListener("mousemove", (e) => {
   if (!isDown) return;
   e.preventDefault();
   const x = e.pageX - scoreList.offsetLeft;
-  const walk = (x - startX) * 2; // Multiplica para ajustar a sensibilidade
+  const walk = (x - startX) * 2;
   scoreList.scrollLeft = scrollLeft - walk;
 
-  // Detecta que está arrastando
   isDragging = true;
+
+  // Ajusta a opacidade durante o movimento
+  adjustOpacity();
 });
+
+// Ajusta a opacidade ao carregar ou redimensionar a janela
+window.addEventListener("load", adjustOpacity);
+window.addEventListener("resize", adjustOpacity);
+
+// Ajusta a opacidade ao rolar
+scoreList.addEventListener("scroll", adjustOpacity);
 
 document.querySelectorAll(".sc_stars").forEach((starsContainer) => {
   // Extraia o número de estrelas a partir da classe "st_X"

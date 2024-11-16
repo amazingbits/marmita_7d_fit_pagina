@@ -723,14 +723,35 @@ div small:last-of-type {
   }
 
   .score_list .score_card {
-    min-width: 100%;
+    min-width: 85%;
     height: 350px;
   }
 
   .score_list .score_card p {
     font-size: 14px;
     height: 190px;
+    padding: 0.5rem;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e6961f30 #f0f0f030;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .score_list .score_card p::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .score_list .score_card p::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #e6961f30, #f0f0f030);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .score_list .score_card p::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
   }
 
   .card_comparison {
