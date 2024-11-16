@@ -729,12 +729,13 @@ div small:last-of-type {
 
   .score_list .score_card p {
     font-size: 14px;
-    height: 190px;
+    height: 185px;
     padding: 0.5rem;
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: #e6961f30 #f0f0f030;
     transition: all 0.3s ease-in-out;
+    opacity: 0.7;
   }
 
   .score_list .score_card p::-webkit-scrollbar {
